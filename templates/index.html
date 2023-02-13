@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+  {%block body%}
+  <div class="container mt-4 mb-3 pb-1">
+    <div class="row">
+      <div class="col-12 col-md">
+        <div class="h-100 w-md-11/12 w-xl-10/12 max-width-xnarrow">
+          <div class="h-100 d-flex flex-column justify-content-between">
+            <div>
+              <font color=#7ABFC4><h1 class="balance-text font-sans-serif mb-0.75">Budget Boss:<br data-owner="balance-text">How it Works ?</h1></font> 
+              <br/>               
+              <div class="post-excerpt">
+                <font color=#b8e0e3><p>
+                This price tracker bot provides a web interface to the user to enter the Amazon product link and email. It saves the provided link and email as well as the current price of the product in a database.
+                <br/>
+                <br/>
+                A scheduled script runs every hour to check the current price of the product and compare it with the saved price. If the current price is less than the saved price, the bot sends a mail to the user.
+                </p></font>
+                <br/>
+<div class="btns"><a href="tracker" class="btn-primary" target="_blank" rel="noopener">Try&nbsp;now</a></div></div>
+            </div>
+              
+          </div>
+        </div>
+      </div>
+      <div class="
+          col-12          col-md-6                   mt-0.75 mt-md-0
+        position-relative
+        ">
+        <div class="mb-1 sticky js-sticky mt-ngutter pt-gutter">
+          
+<img class="w-100" src="static/images/mailSS.jpeg" alt="Sample Screenshot of mail">
+        </div>
+      </div>
+    </div>
+  </div>
+   
+  {%endblock%}
+

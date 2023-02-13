@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+  {%block body%}
+    <div class="tracker-body">
+        <div class="sub-container2">
+            <form method = "POST">
+            <div class="sub-box2">
+                <i class="fa fa-link" aria-hidden="true"></i>
+                <input type="url" name="plink" required placeholder="Link">
+            </div>
+            <br/>
+            <div class="sub-box3">
+                <i class="fa fa-envelope" aria-hidden="true"></i>
+                <input type="email" name="uemail" required placeholder="Email">
+            </div>
+            <br/>
+            <center><input type="submit" class="btn-primary"></center>
+            </form>
+        </div>
+    </div>
+    <br/>
+  {% endblock %}
