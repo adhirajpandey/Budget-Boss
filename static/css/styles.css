@@ -1,4 +1,4 @@
- .navbar {
+.navbar {
     background: #129BBA;
 }
 
@@ -203,3 +203,37 @@ form{
   background-color: #EC4D2B;
 }
 
+/* Styles for mobile devices */
+@media only screen and (max-width: 768px) {
+  .tracker-body {
+    width: 100%;
+    margin: 0;
+  }
+
+  .sub-box2, .sub-box3 {
+    display: block;
+    width: 100%;
+    margin-right: 0;
+    background-color: white;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+
+  .btn-primary {
+    width: 100%;
+    display: block;
+    margin: 20px auto 0;
+  }
+
+  .btns {
+    margin-bottom: 20px; /* add margin to the "Try now" button */
+  }
+  .sticky img {
+    margin-top: 20px;
+
+}
+
+}
