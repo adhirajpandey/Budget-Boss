@@ -12,6 +12,8 @@ The background listener.py file runs every hour and compares the current price o
 
 It is built using Python, HTML, CSS, Flask, Jinja, Bootstrap and Beautiful Soup and deployed using Microsoft Azure App Service.
 
+Edit: To bypass 15 mins sleep timeout by Azure, `wakewebsite.sh` script is also scheduled using cron to ping webapp at regular intervals.
+
 ## Installation and Usage
 
 1. Clone the project on your local system using: `git clone https://github.com/adhirajpandey/Budget-Boss`
