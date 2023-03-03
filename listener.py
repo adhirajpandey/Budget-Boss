@@ -9,7 +9,7 @@ def fetchData(wks):
     return wks.get_all_values()
 
 #function to scrape product details from amazon
-def scrapeProductInfo(URL):
+def scrapeProductInfo_amzn(URL):
     try:
         header ={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36"}
 
@@ -33,6 +33,33 @@ def scrapeProductInfo(URL):
     except:
         return [-1, -1]
 
+##function to scrape product details from flipkart
+def scrapeProductInfo_flkt(URL):
+    try:
+        API_URL = "https://flipkart.dvishal485.workers.dev/product/min/"
+
+        #cleaning URL in required API format
+        if "http" in URL:
+            URL = URL.replace("https://www.flipkart.com/", "")
+        
+        elif "http" not in URL and "www" in URL:
+            URL = URL.replace("www.flipkart.com/", "")
+
+        #getting page using requests module
+        page = requests.get(API_URL+URL)
+
+        #getting results in json
+        product_data = page.json()
+
+        title = product_data["name"]
+
+        price = product_data["current_price"]
+
+        return [title, int(price)]
+    
+    except:
+        return [-1, -1]
+
 #funtion to mail the link
 def sendMail(user_email, product_title, product_price, product_link):
         port = 465  # For SSL
@@ -43,12 +70,17 @@ def sendMail(user_email, product_title, product_price, product_link):
         FROM = f"Price Tracker Bot"
         SUBJECT = f"ALERT!! Price Drop for your Product"
         TEXT = f"""Hey User,
+
 Price of your product which you asked us to track has dropped.
+
 Please check the below details for the same: 
+
 Product - {product_title}
 Price - {product_price}
 Link - {product_link}
+
 Happy Shopping!!
+
 Regards,
 Price Tracker Bot"""
         
@@ -70,12 +102,16 @@ def main():
     #fetch data from sheet db
     data = fetchData(wks)
 
-    #iterate for every product info and send mail if price drops
+    #iterate for every product info and send mail if price drops (0th index are column headers)
     for entity in data[1:]:
+        
+        if "amazon" in entity[0]: 
+            product_title, current_price = scrapeProductInfo_amzn(entity[0])
+        
+        elif "flipkart" in entity[0]:
+            product_title, current_price = scrapeProductInfo_flkt(entity[0])
 
-        product_title, current_price = scrapeProductInfo(entity[0])
-
-        if current_price < int(entity[3]):
+        if (current_price < int(entity[3])) and (current_price != -1):
             sendMail(user_email = entity[1], product_title = product_title, product_price = current_price, product_link = entity[0])
 
         else:
