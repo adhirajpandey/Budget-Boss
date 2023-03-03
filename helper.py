@@ -27,7 +27,7 @@ def connectSheet():
 def addData(wks, link, email, title, price):
     wks.append_row([link, email, title, price])
 
-def scrapeProductInfo(URL):
+def scrapeProductInfo_amzn(URL):
     try:
         header ={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36"}
 
@@ -45,6 +45,32 @@ def scrapeProductInfo(URL):
         title = title.strip()
         price = price.strip()[:-1]
         # price = price[:-1]
+
+        return [title, int(price)]
+    
+    except:
+        return [-1, -1]
+
+def scrapeProductInfo_flkt(URL):
+    try:
+        API_URL = "https://flipkart.dvishal485.workers.dev/product/min/"
+
+        #cleaning URL in required API format
+        if "http" in URL:
+            URL = URL.replace("https://www.flipkart.com/", "")
+        
+        elif "http" not in URL and "www" in URL:
+            URL = URL.replace("www.flipkart.com/", "")
+
+        #getting page using requests module
+        page = requests.get(API_URL+URL)
+
+        #getting results in json
+        product_data = page.json()
+
+        title = product_data["name"]
+
+        price = product_data["current_price"]
 
         return [title, int(price)]
     
