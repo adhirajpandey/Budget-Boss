@@ -1,7 +1,9 @@
 # Budget-Boss
 
 ## Description
-Price tracking web application that helps you save money on online e-commerce purchases. It allows you to monitor product prices and receive notifications via email when the price drops. 
+Price tracking web application that helps you save money on online e-commerce purchases. It allows you to monitor product prices and receive notifications via email when the price drops.
+
+Currently supported E-commerce websites : Amazon, Flipkart.
 
 Check it out - https://budgetboss.azurewebsites.net/
 
@@ -29,11 +31,13 @@ Edit: To bypass 15 mins sleep timeout by Azure, `wakewebsite.sh` script is also 
 
 5. Schedule the `listener.py` file using cron or github actions.
 
-## Features to be Added
+## Utilities
 
-1. Functionality for Flipkart, Myntra etc as well.
-2. Notification via Discord, Telegram as per user preference
-3. Best Deals Section
+- [x] Functionality for Flipkart
+- [ ] Functionality for Myntra
+- [ ] Notification via Discord
+- [ ] Best Deals Section
+
 
 ## Samples
 
