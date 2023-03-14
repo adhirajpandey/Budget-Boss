@@ -5,7 +5,7 @@ Price tracking web application that helps you save money on online e-commerce pu
 
 Currently supported E-commerce websites : Amazon, Flipkart.
 
-Check it out - https://budgetboss.azurewebsites.net/
+Check it out - https://budgetbossapp.azurewebsites.net//
 
 ## Working
 User inputs the desired product link and email. This data along with Product Title and it's Current Price is appended in the database.
