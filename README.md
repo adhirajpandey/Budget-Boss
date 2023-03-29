@@ -3,7 +3,7 @@
 ## Description
 Price tracking web application that helps you save money on online e-commerce purchases. It allows you to monitor product prices and receive notifications via email when the price drops.
 
-Currently supported E-commerce websites : Amazon, Flipkart, Myntra.
+Currently supported E-commerce websites : Amazon, Flipkart, Myntra, Boat.
 
 Check it out - https://budgetbossapp.azurewebsites.net//
 
@@ -41,9 +41,9 @@ Edit: To bypass 15 mins sleep timeout by Azure, `wakewebsite.sh` script is also 
 
 ## Samples
 
-  ![BB_Index](https://user-images.githubusercontent.com/87516052/228567899-1c3f465b-083d-4fc9-89d6-6bb09ac39ec3.png)
+  ![BB_Index](https://user-images.githubusercontent.com/87516052/228626015-cbca61d9-e5b4-4303-ac5d-fa73572561c6.png)
 
-  ![BB_Tracker](https://user-images.githubusercontent.com/87516052/228568296-1b1cd6bf-a171-4616-9a6e-e968064b288a.png)
+  ![BB_Tracker](https://user-images.githubusercontent.com/87516052/228626121-6284ec09-7c40-4236-aef3-5becb6f6c307.png)
 
   ![BB_Email](https://user-images.githubusercontent.com/87516052/218429725-1cf1d527-71ee-442c-bdaf-7ac3bf808698.jpeg)
   
