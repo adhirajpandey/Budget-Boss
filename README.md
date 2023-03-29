@@ -34,9 +34,8 @@ Edit: To bypass 15 mins sleep timeout by Azure, `wakewebsite.sh` script is also 
 
 - [x] Functionality for Flipkart
 - [x] Functionality for Myntra
-- [ ] Functionality for Boat
+- [x] Functionality for Boat
 - [ ] Notification via Discord
-
 - [ ] Best Deals Section
 
 

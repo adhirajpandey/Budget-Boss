@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from helper import connectMongo, scrapeProductInfo_amzn, scrapeProductInfo_flkt, scrapeProductInfo_mntr
+from helper import connectMongo, scrapeProductInfo_amzn, scrapeProductInfo_flkt, scrapeProductInfo_mntr, scrapeProductInfo_boat
 
 #make connection with mongo db
 coll = connectMongo()
@@ -34,6 +34,10 @@ def tracker():
                     break
             elif "myntra" in product_link:
                 product_title, product_price = scrapeProductInfo_mntr(product_link)
+                if product_price != -1:
+                    break
+            elif "boat-lifestyle" in product_link:
+                product_title, product_price = scrapeProductInfo_boat(product_link)
                 if product_price != -1:
                     break
             else:

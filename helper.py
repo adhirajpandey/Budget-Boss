@@ -106,3 +106,22 @@ def scrapeProductInfo_mntr(URL):
     except:
         return [-1, -1]
     
+def scrapeProductInfo_boat(URL):
+    try:
+        header ={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36"}
+        
+        page = requests.get(URL, headers=header)
+        soup = BeautifulSoup(page.text, "html.parser")
+
+        #get price and cleaned title
+        price = soup.find('span', attrs={'class':'price price--highlight price--large'}).get_text().replace(",","")
+        title = soup.find('h1', attrs={'class':'product-meta__title heading h3'}).get_text().strip().replace("\n","").replace("\xa0","").replace("  ","")
+
+        #clean price
+        price = price[price.index('₹')+2:]
+
+        return [title, int(price)]
+    
+    except:
+        return [-1, -1]
+    
