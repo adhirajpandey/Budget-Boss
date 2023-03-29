@@ -1,31 +1,35 @@
 import os
-import gspread
 import requests
+import json
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
+from pymongo import MongoClient
 
 #load environment variables
 load_dotenv()
 
-def connectSheet():
-    
-    #google api service account key json path
-    SERVICE_KEY_FILE = os.getenv("SERVICE_KEY_FILE")
-
+def connectMongo() -> object:
     try:
-        #connecting with google sheet
-        gc = gspread.service_account(SERVICE_KEY_FILE)
-        spreadsheet = os.getenv("SPREADSHEET")
+        #loading env variables
+        cluster = os.getenv("MONGO_CLUSTER")
+        user = os.getenv("MONGO_USER")
+        password = os.getenv("MONGO_PASSWORD")
+
+        #connecting with mongo db
+        connectionstring = "mongodb+srv://" + user + ":" + password + "@" + cluster + ".mongodb.net/test?retryWrites=true&w=majority"
+
+        client = MongoClient(connectionstring)
+
+        #connecting with database
+        db = client["BudgetBossDB"]
+
+        #connecting with collection
+        col = db["BudgetBoss"]
+
+        return col
     
-        wks = gc.open(spreadsheet).sheet1
-
-        return wks
-
     except:
-        print("Error while connecting with google sheet")
-
-def addData(wks, link, email, title, price):
-    wks.append_row([link, email, title, price])
+        print("Error while connecting with mongo db")
 
 def scrapeProductInfo_amzn(URL):
     try:
@@ -76,3 +80,29 @@ def scrapeProductInfo_flkt(URL):
     
     except:
         return [-1, -1]
+
+def scrapeProductInfo_mntr(URL):
+    try:
+        header = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"}
+
+        page = requests.get(URL, headers=header)
+
+        soup = BeautifulSoup(page.text, "html.parser")
+
+        #Extract all the scripts where the data is stored
+        scripts = soup.findAll("script")
+
+        data = scripts[1].string
+
+        #convert script data to json
+        product_data = json.loads(data)
+
+        title = product_data['name']
+
+        price = product_data['offers']['price']
+
+        return [title, int(price)]
+    
+    except:
+        return [-1, -1]
+    
