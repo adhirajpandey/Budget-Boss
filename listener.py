@@ -115,6 +115,25 @@ def scrapeProductInfo_mntr(URL):
     except:
         return [-1, -1]
 
+def scrapeProductInfo_boat(URL):
+    try:
+        header ={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36"}
+        
+        page = requests.get(URL, headers=header)
+        soup = BeautifulSoup(page.text, "html.parser")
+
+        #get price and cleaned title
+        price = soup.find('span', attrs={'class':'price price--highlight price--large'}).get_text().replace(",","")
+        title = soup.find('h1', attrs={'class':'product-meta__title heading h3'}).get_text().strip().replace("\n","").replace("\xa0","").replace("  ","")
+
+        #clean price
+        price = price[price.index('₹')+2:]
+
+        return [title, int(price)]
+    
+    except:
+        return [-1, -1]
+
 #funtion to mail the link
 def sendMail(user_email, product_title, product_price, product_link):
         port = 465  # For SSL
@@ -168,6 +187,9 @@ def main():
         
         elif "myntra" in document["link"]:
             product_title, current_price = scrapeProductInfo_mntr(document["link"])
+        
+        elif "boat-lifestyle" in document["link"]:
+            product_title, current_price = scrapeProductInfo_boat(document["link"])
 
         if (current_price < int(document["product_price"])) and (current_price != -1):
             sendMail(user_email = document["email"], product_title = product_title, product_price = current_price, product_link = document["link"])

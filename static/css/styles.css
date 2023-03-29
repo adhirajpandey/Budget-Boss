@@ -203,6 +203,58 @@ form{
   background-color: #EC4D2B;
 }
 
+
+/* Navigation Bar */
+header{
+  background: #129BBA;
+  height: 80px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0;
+}
+
+
+.logo{
+  font-size: 20px;
+  font-weight: 400;
+  color: #ffffff;
+  padding: 0 30px;
+}
+
+.hamburger{
+  display: none;
+}
+
+.nav-bar ul{
+  display: flex;
+  margin: 2px;
+  list-style-type: none;
+}
+
+.nav-bar ul li a{
+  display: block;
+  color: #ffffff;
+  font-size: 16px;
+  padding: 10px 20px;
+  border-radius: 50px;
+  transition: 0.2s;
+  margin: 0 5px;
+  text-decoration: none;
+}
+
+.nav-bar ul li a:hover{
+  background: #ffffff;
+  color: #129BBA;
+}
+
+.nav-bar ul li a.active{
+  background: #ffffff;
+  color: #129BBA;
+}
+
+
 /* Styles for mobile devices */
 @media only screen and (max-width: 768px) {
   .tracker-body {
@@ -235,5 +287,61 @@ form{
     margin-top: 20px;
 
 }
+
+.logo {
+  padding: 0 10px;
+}
+
+.hamburger {
+  display: block;
+  cursor: pointer;
+}
+.hamburger .line{
+    width: 30px;
+    height: 3px;
+    margin: 5px 0;
+    margin-right: 15px;
+    background: #fff;
+}
+
+.nav-bar {
+    height: 0px;
+    position: absolute;
+    z-index: 999;
+    top: 80px;
+    transition: 0.2s;
+    width: 100vw;
+    background-color: #129BBA;
+    overflow: hidden;
+}
+
+.nav-bar ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  transition: 0.5s;
+}
+
+.nav-bar ul li {
+  margin: 10px 0;
+}
+
+.nav-bar ul li a {
+  margin-bottom: 12px ;
+  width: 100%;
+  text-align: center;
+}
+
+.nav-bar.active {
+  height: 70px;
+}
+.nav-bar.active {
+    opacity: 1;
+}
+
 
 }
