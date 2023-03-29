@@ -1,12 +1,41 @@
-from helper import connectSheet
 import requests
+import os
+import json
 from bs4 import BeautifulSoup
 import smtplib
 import ssl
+from dotenv import load_dotenv
+from pymongo import MongoClient
 
-#function to get worksheet data form google sheet db
-def fetchData(wks):
-    return wks.get_all_values()
+#load environment variables
+load_dotenv()
+
+def connectMongo() -> object:
+    try:
+        #loading env variables
+        cluster = os.getenv("MONGO_CLUSTER")
+        user = os.getenv("MONGO_USER")
+        password = os.getenv("MONGO_PASSWORD")
+
+        #connecting with mongo db
+        connectionstring = "mongodb+srv://" + user + ":" + password + "@" + cluster + ".mongodb.net/test?retryWrites=true&w=majority"
+
+        client = MongoClient(connectionstring)
+
+        #connecting with database
+        db = client["BudgetBossDB"]
+
+        #connecting with collection
+        col = db["BudgetBoss"]
+
+        return col
+    
+    except:
+        print("Error while connecting with mongo db")
+
+#function to get collection from mongo db
+def fetchData(col):
+    return list(col.find({}, {"_id": 0}))
 
 #function to scrape product details from amazon
 def scrapeProductInfo_amzn(URL):
@@ -59,6 +88,32 @@ def scrapeProductInfo_flkt(URL):
     
     except:
         return [-1, -1]
+    
+#function to scrape product details from myntra
+def scrapeProductInfo_mntr(URL):
+    try:
+        header = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"}
+
+        page = requests.get(URL, headers=header)
+
+        soup = BeautifulSoup(page.text, "html.parser")
+
+        #Extract all the scripts where the data is stored
+        scripts = soup.findAll("script")
+
+        data = scripts[1].string
+
+        #convert script data to json
+        product_data = json.loads(data)
+
+        title = product_data['name']
+
+        price = product_data['offers']['price']
+
+        return [title, int(price)]
+    
+    except:
+        return [-1, -1]
 
 #funtion to mail the link
 def sendMail(user_email, product_title, product_price, product_link):
@@ -97,23 +152,26 @@ Price Tracker Bot"""
 def main():
     
     #make connection with sheet db
-    wks = connectSheet()
+    col = connectMongo()
 
     #fetch data from sheet db
-    data = fetchData(wks)
+    data = fetchData(col)
 
     #iterate for every product info and send mail if price drops (0th index are column headers)
-    for entity in data[1:]:
+    for document in data:
         
-        if "amazon" in entity[0]: 
-            product_title, current_price = scrapeProductInfo_amzn(entity[0])
+        if "amazon" in document["link"]: 
+            product_title, current_price = scrapeProductInfo_amzn(document["link"])
         
-        elif "flipkart" in entity[0]:
-            product_title, current_price = scrapeProductInfo_flkt(entity[0])
+        elif "flipkart" in document["link"]:
+            product_title, current_price = scrapeProductInfo_flkt(document["link"])
+        
+        elif "myntra" in document["link"]:
+            product_title, current_price = scrapeProductInfo_mntr(document["link"])
 
-        if (current_price < int(entity[3])) and (current_price != -1):
-            sendMail(user_email = entity[1], product_title = product_title, product_price = current_price, product_link = entity[0])
-
+        if (current_price < int(document["product_price"])) and (current_price != -1):
+            sendMail(user_email = document["email"], product_title = product_title, product_price = current_price, product_link = document["link"])
+            print("Mail Sent, Price dropped for product: ", product_title)
         else:
             print("Price is still same for product: ", product_title)
         

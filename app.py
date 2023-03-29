@@ -1,8 +1,8 @@
-from flask import Flask, render_template, request, redirect
-from helper import connectSheet, addData, scrapeProductInfo_amzn, scrapeProductInfo_flkt
+from flask import Flask, render_template, request
+from helper import connectMongo, scrapeProductInfo_amzn, scrapeProductInfo_flkt, scrapeProductInfo_mntr
 
-#make connection with sheet db
-wks = connectSheet()
+#make connection with mongo db
+coll = connectMongo()
 
 app = Flask(__name__)
 
@@ -32,6 +32,12 @@ def tracker():
                 product_title, product_price = scrapeProductInfo_flkt(product_link)
                 if product_price != -1:
                     break
+            elif "myntra" in product_link:
+                product_title, product_price = scrapeProductInfo_mntr(product_link)
+                if product_price != -1:
+                    break
+            else:
+                return render_template('statusF.html')
         
         #add data to sheets db
         if product_price == -1:
@@ -40,7 +46,8 @@ def tracker():
         
         else:
             #add data and redirect to status success
-            addData(wks, product_link, user_email, product_title, product_price)
+            # addData(wks, product_link, user_email, product_title, product_price)
+            coll.insert_one({"link" : product_link, "email": user_email, "product_title": product_title, "product_price": product_price})
             return render_template('statusS.html')
 
 
@@ -50,7 +57,6 @@ def tracker():
 @app.route('/about')
 def about():
     return render_template('about.html')
-
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=80)
