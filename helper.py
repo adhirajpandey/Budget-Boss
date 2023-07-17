@@ -23,10 +23,7 @@ def connectMongo() -> object:
         #connecting with database
         db = client["BudgetBossDB"]
 
-        #connecting with collection
-        col = db["BudgetBoss"]
-
-        return col
+        return db
     
     except:
         print("Error while connecting with mongo db")

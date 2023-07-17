@@ -30,8 +30,12 @@
                 <a class="nav-link " aria-current="page" href="tracker"><b>Tracker</b></a>
               </li>
               <li class="nav-item">
+                <a class="nav-link" href="deals"><b>Deals</b></a>
+              </li>
+              <li class="nav-item">
                   <a class="nav-link " href="about"><b>About</b></a>
               </li>
+              
             {% endif %}
             {% if request.path == '/tracker' %}
             <li class="nav-item">
@@ -41,9 +45,28 @@
               <a class="nav-link active" aria-current="page" href="tracker"><b>Tracker</b></a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="deals"><b>Deals</b></a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link " href="about"><b>About</b></a>
             </li>
-            {% endif %}		
+            
+            {% endif %}
+            {% if request.path == '/deals' %}
+            <li class="nav-item">
+              <a class="nav-link " href="index"><b>Home</b></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="tracker"><b>Tracker</b></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="deals"><b>Deals</b></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about"><b>About</b></a>
+            </li>
+            
+            {% endif %}			
             {% if request.path == '/about' %}
             <li class="nav-item">
               <a class="nav-link " href="index"><b>Home</b></a>
@@ -52,9 +75,13 @@
                 <a class="nav-link" aria-current="page" href="tracker"><b>Tracker</b></a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="deals"><b>Deals</b></a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link active" href="about"><b>About</b></a>
             </li>
-            {% endif %}		
+            
+            {% endif %}			
         </ul>
     </nav>
 </header>

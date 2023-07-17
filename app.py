@@ -2,7 +2,10 @@ from flask import Flask, render_template, request
 from helper import connectMongo, scrapeProductInfo_amzn, scrapeProductInfo_flkt, scrapeProductInfo_mntr, scrapeProductInfo_boat
 
 #make connection with mongo db
-coll = connectMongo()
+db = connectMongo()
+
+user_collection = db["BudgetBoss"]
+deals_collection = db["Deals"]
 
 app = Flask(__name__)
 
@@ -51,7 +54,7 @@ def tracker():
         else:
             #add data and redirect to status success
             # addData(wks, product_link, user_email, product_title, product_price)
-            coll.insert_one({"link" : product_link, "email": user_email, "product_title": product_title, "product_price": product_price})
+            user_collection.insert_one({"link" : product_link, "email": user_email, "product_title": product_title, "product_price": product_price})
             return render_template('statusS.html')
 
 
@@ -62,5 +65,13 @@ def tracker():
 def about():
     return render_template('about.html')
 
+
+@app.route('/deals')
+def deals():
+    queryres = deals_collection.find({"product_price" : {"$not" : {"$lt" : 1}}}).sort("message_time_unix", -1).limit(20)
+    products = [x for x in queryres]
+
+    return render_template('deals.html', products=products)
+
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=80)
+    app.run(host="0.0.0.0", port=80, debug=True)
