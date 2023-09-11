@@ -1,28 +1,18 @@
-.navbar {
-  background: #129BBA;
-}
 
 body {
   background-color: #323949;
 }
 
-
-
 .container {
   width: 100%;
   height: auto;
   background:  #323949;
- 
-
-  /*add flexbox style*/
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: row;
   flex-flow: wrap;
-
 }  
-
 
 .sub-box2{
   
@@ -34,7 +24,6 @@ body {
   align-items: center;
   padding: 20px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-
 }
 
 .sub-container2{
@@ -42,29 +31,24 @@ body {
   position: absolute;
   display: flex;
   flex-direction: column;
-
 }
 
 form{
-flex:1;
+  flex:1;
 }
 
 .sub-box2> input{
-
-flex: 1;
-height: 40px;
-border: none;
-outline: none;
-font-size: 18px;
-padding-left: 10px;
-
+  flex: 1;
+  height: 40px;
+  border: none;
+  outline: none;
+  font-size: 18px;
+  padding-left: 10px;
 }
 
 .sub-box2 > i {
-
-font-size: 20px;
-color: #777;
-
+  font-size: 20px;
+  color: #777;
 }
 
 .tracker-body{
@@ -72,215 +56,235 @@ color: #777;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #323949;
-  background-image: linear-gradient(#323949,#323949);
+  background-color: rgba(22, 22, 22, 0); 
 }
 
-
-.sub-box3{
-  
-width: 500px;
-height: 50px;
-background-color: white;
-border-radius: 30px;
-display: flex;
-align-items: center;
-padding: 20px;
-box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-
+.sub-box3{ 
+  width: 500px;
+  height: 50px;
+  background-color: white;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  box-shadow: rgba(66, 66, 66, 0.24) 0px 3px 8px;
 }
 
 .sub-box3> input{
-
-flex: 1;
-height: 40px;
-border: none;
-outline: none;
-font-size: 18px;
-padding-left: 10px;
-
+  flex: 1;
+  height: 40px;
+  border: none;
+  outline: none;
+  font-size: 18px;
+  padding-left: 10px;
 }
 
 .sub-box3 > i {
-
-font-size: 20px;
-color: #777;
-
+  font-size: 20px;
+  color: #777;
 }
-
-
 
 .btn-primary {
-background-color: #129BBA;
-border-radius: 8px;
-border-style: none;
-box-sizing: border-box;
-color: #FFFFFF;
-cursor: pointer;
-display: inline-block;
-font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
-font-size: 14px;
-font-weight: 500;
-height: 40px;
-line-height: 20px;
-list-style: none;
-margin: 0;
-outline: none;
-padding: 10px 16px;
-position: relative;
-text-align: center;
-text-decoration: none;
-transition: color 100ms;
-vertical-align: baseline;
-user-select: none;
--webkit-user-select: none;
-touch-action: manipulation;
+  background-color: #129BBA;
+  border-radius: 8px;
+  border-style: none;
+  box-sizing: border-box;
+  color: #000000;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  height: 40px;
+  line-height: 20px;
+  list-style: none;
+  margin: 0;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: color 100ms;
+  vertical-align: baseline;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  background-image: linear-gradient(to bottom, #268ba0, #3ab2cd);
 }
 
-
+.btn-primary:hover {
+  background-image: linear-gradient(to bottom, #3ab2cd, #268ba0);
+}
 
 .content{
-display: flex;
-align-items:center;
+  display: flex;
+  align-items:center;
 }
 .icon{
-padding: 0.5rem;
-margin-right: 1rem;
-border-radius:39% 61% 42% 58% / 50% 51% 49% 50%;
-box-shadow:
-0px 3.2px 13.8px rgba(0, 0, 0, 0.02),
-0px 7.6px 33.3px rgba(0, 0, 0, 0.028),
-0px 14.4px 62.6px rgba(0, 0, 0, 0.035),
-0px 25.7px 111.7px rgba(0, 0, 0, 0.042),
-0px 48px 208.9px rgba(0, 0, 0, 0.05),
-0px 115px 500px rgba(0, 0, 0, 0.07)
+  padding: 0.5rem;
+  margin-right: 1rem;
+  border-radius:39% 61% 42% 58% / 50% 51% 49% 50%;
+  box-shadow:
+  0px 3.2px 13.8px rgba(0, 0, 0, 0.02),
+  0px 7.6px 33.3px rgba(0, 0, 0, 0.028),
+  0px 14.4px 62.6px rgba(0, 0, 0, 0.035),
+  0px 25.7px 111.7px rgba(0, 0, 0, 0.042),
+  0px 48px 208.9px rgba(0, 0, 0, 0.05),
+  0px 115px 500px rgba(0, 0, 0, 0.07)
 }
 
-
 .success .icon{
-background-color:#3ebd61;
+  background-color:#3ebd61;
 }
 
 .success-alert{
-background-color: rgba(62, 189, 97,0.2);
-border:2px solid #3ebd61;
-display: flex;
-align-items:center;
-padding: 0.55rem 0.65rem 0.55rem 0.75rem;
-border-radius:1rem;
-min-width:400px;
-justify-content: space-between;
-margin-bottom: 2rem;
-box-shadow:
-0px 3.2px 13.8px rgba(0, 0, 0, 0.02),
-0px 7.6px 33.3px rgba(0, 0, 0, 0.028),
-0px 14.4px 62.6px rgba(0, 0, 0, 0.035),
-0px 25.7px 111.7px rgba(0, 0, 0, 0.042),
-0px 48px 208.9px rgba(0, 0, 0, 0.05),
-0px 115px 500px rgba(0, 0, 0, 0.07)
+  background-color: rgba(62, 189, 97,0.2);
+  border:2px solid #3ebd61;
+  display: flex;
+  align-items:center;
+  padding: 0.55rem 0.65rem 0.55rem 0.75rem;
+  border-radius:1rem;
+  min-width:400px;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  box-shadow:
+  0px 3.2px 13.8px rgba(0, 0, 0, 0.02),
+  0px 7.6px 33.3px rgba(0, 0, 0, 0.028),
+  0px 14.4px 62.6px rgba(0, 0, 0, 0.035),
+  0px 25.7px 111.7px rgba(0, 0, 0, 0.042),
+  0px 48px 208.9px rgba(0, 0, 0, 0.05),
+  0px 115px 500px rgba(0, 0, 0, 0.07)
 }
 
 .error-alert{
-background-color: rgba(236, 77, 43, 0.2);
-border:2px solid #EF9400;
-display: flex;
-align-items:center;
-padding: 0.55rem 0.65rem 0.55rem 0.75rem;
-border-radius:1rem;
-min-width:400px;
-justify-content: space-between;
-margin-bottom: 2rem;
-box-shadow:
-0px 3.2px 13.8px rgba(0, 0, 0, 0.02),
-0px 7.6px 33.3px rgba(0, 0, 0, 0.028),
-0px 14.4px 62.6px rgba(0, 0, 0, 0.035),
-0px 25.7px 111.7px rgba(0, 0, 0, 0.042),
-0px 48px 208.9px rgba(0, 0, 0, 0.05),
-0px 115px 500px rgba(0, 0, 0, 0.07)
+  background-color: rgba(236, 77, 43, 0.2);
+  border:2px solid #EF9400;
+  display: flex;
+  align-items:center;
+  padding: 0.55rem 0.65rem 0.55rem 0.75rem;
+  border-radius:1rem;
+  min-width:400px;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  box-shadow:
+  0px 3.2px 13.8px rgba(0, 0, 0, 0.02),
+  0px 7.6px 33.3px rgba(0, 0, 0, 0.028),
+  0px 14.4px 62.6px rgba(0, 0, 0, 0.035),
+  0px 25.7px 111.7px rgba(0, 0, 0, 0.042),
+  0px 48px 208.9px rgba(0, 0, 0, 0.05),
+  0px 115px 500px rgba(0, 0, 0, 0.07)
 }
 
 .error .icon{
-background-color: #EC4D2B;
+  background-color: #EC4D2B;
 }
 
 
 /* Navigation Bar */
 header{
-background: #129BBA;
-height: 80px;
-width: 100%;
-display: flex;
-align-items: center;
-justify-content: space-between;
-padding: 0 0;
+  background:  #129BBA;
+  height: 80px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0;
 }
 
-
 .logo{
-font-size: 20px;
-font-weight: 400;
-color: #ffffff;
-padding: 0 30px;
+  font-size: 20px;
+  font-weight: 400;
+  color: #ffffff;
+  padding: 0 30px;
 }
 
 .hamburger{
-display: none;
+  display: none;
 }
 
 .nav-bar ul{
-display: flex;
-margin: 2px;
-list-style-type: none;
+  display: flex;
+  margin: 2px;
+  list-style-type: none;
 }
 
 .nav-bar ul li a{
-display: block;
-color: #ffffff;
-font-size: 16px;
-padding: 10px 20px;
-border-radius: 50px;
-transition: 0.2s;
-margin: 0 5px;
-text-decoration: none;
+  display: block;
+  color: #ffffff;
+  font-size: 16px;
+  padding: 10px 20px;
+  border-radius: 50px;
+  transition: 0.2s;
+  margin: 0 5px;
+  text-decoration: none;
 }
 
 .nav-bar ul li a:hover{
-background: #ffffff;
-color: #129BBA;
+  background: linear-gradient(45deg, #1b222c, #323949);
+  color: #ffffff;
 }
 
 .nav-bar ul li a.active{
-background: #ffffff;
-color: #129BBA;
+  background: linear-gradient(45deg, #323949, #1b222c);
+  color: #ffffff;
 }
 
+/* Deals Elements */
 .deal-container {
-display: flex;
-flex-wrap: wrap;
-margin-top: 40px;
-display: flex;
-align-items: center;
-justify-content: center;
-flex-direction: row;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  gap: 20px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .deal {
-width: 80%;
-margin-bottom: 20px;
-border: 1px solid #ccc;
-border-radius: 20px;
-padding: 10px;
-box-sizing: border-box;
-background-color: #129BBA;
+  width: calc(20% - 10px);
+  margin-bottom: 20px;
+  border-radius: 5px;
+  box-shadow: 5px 5px 15px rgb(54, 54, 54);
+  padding: 10px;
+  box-sizing: border-box;
+  background: linear-gradient(to bottom, #92eafd, #3ab2cd);
+}
+
+.deal img {
+  max-width: 100%; 
+  height: auto; 
+  display: block; 
+  margin: 0 auto 10px; 
+  object-fit: cover; 
+  width: 85%; 
+  aspect-ratio: 1/1; 
+  border-radius: 5px;
+}
+
+.deal p {
+  text-align: right;
 }
 
 .deal h2 {
-font-size: 1.2rem;
-margin-bottom: 5px;
+  font-size: 1.2rem;
+  margin-bottom: 5px;
 }
+
 ul {
-list-style-type: none;
+  list-style-type: none;
 }
+
+.product-name {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+  max-height: 23px; 
+  overflow: hidden;
+}
+
+
 
 
 /* Styles for mobile devices */
@@ -309,7 +313,7 @@ list-style-type: none;
 }
 
 .btns {
-  margin-bottom: 20px; /* add margin to the "Try now" button */
+  margin-bottom: 20px; 
 }
 .sticky img {
   margin-top: 20px;
@@ -317,12 +321,12 @@ list-style-type: none;
 }
 
 .logo {
-padding: 0 10px;
+  padding: 0 10px;
 }
 
 .hamburger {
-display: block;
-cursor: pointer;
+  display: block;
+  cursor: pointer;
 }
 .hamburger .line{
   width: 30px;
@@ -339,37 +343,43 @@ cursor: pointer;
   top: 80px;
   transition: 0.2s;
   width: 100vw;
-  background-color: #129BBA;
+  background:  #129BBA;
   overflow: hidden;
 }
 
 .nav-bar ul {
-display: flex;
-justify-content: center;
-align-items: center;
-flex-wrap: wrap;
-margin: 0;
-padding: 0;
-text-align: center;
-transition: 0.5s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  transition: 0.5s;
 }
 
 .nav-bar ul li {
-margin: 10px 0;
+  margin: 10px 0;
+  width: 100%;
 }
 
 .nav-bar ul li a {
-margin-bottom: 12px ;
-width: 100%;
-text-align: center;
+  margin-bottom: 12px ;
+  width: auto; 
+  text-align: center;
 }
 
 .nav-bar.active {
-height: 70px;
+  height: auto;
+  opacity: 1;
 }
+
 .nav-bar.active {
   opacity: 1;
 }
 
+.deal {
+  width: 100%; 
+}
 
 }
