@@ -138,9 +138,9 @@ def scrapeProductInfo_boat(URL):
 def sendMail(user_email, product_title, product_price, product_link):
         port = 465  # For SSL
         smtp_server = "smtp.gmail.com"
-        sender_email = "ankitmrt1113@gmail.com"
+        sender_email = os.getenv("SENDER_EMAIL_ID")
         receiver_email = [user_email] 
-        password = "jupuuefhytsxnxho"       
+        password = os.getenv("SENDER_EMAIL_PASSWORD")       
         FROM = f"Price Tracker Bot"
         SUBJECT = f"ALERT!! Price Drop for your Product"
         TEXT = f"""Hey User,
