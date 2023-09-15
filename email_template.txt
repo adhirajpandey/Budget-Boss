@@ -1,0 +1,14 @@
+Hey User,<br><br>
+
+Price of your product which you asked us to track has dropped.<br><br>
+
+Please check the below details for the same:<br><br>
+
+Product - {product_title}<br>
+Price - <b>{product_price}</b><br>
+Link - {product_link}<br><br>
+
+Happy Shopping!!<br><br>
+
+Regards,<br>
+Price Tracker Bot
