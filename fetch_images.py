@@ -6,7 +6,6 @@ from bs4 import BeautifulSoup
 import json
 import requests
 
-print(datetime.now())
 
 load_dotenv()
 
@@ -105,7 +104,7 @@ def fetchFlipkartImg(URL):
         return None
 
 
-def main():
+def getImages():
     db = connectMongo()
     deals_collection = db["Deals"]
 
@@ -142,4 +141,5 @@ def main():
     print("All images fetched")
 
 if __name__ == '__main__':
-    main()
+    print(datetime.now())
+    getImages()

@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from helper import connectMongo, scrapeProductInfo_amzn, scrapeProductInfo_flkt, scrapeProductInfo_mntr, scrapeProductInfo_boat
+import datetime
 
 # make connection with mongo db
 db = connectMongo()
@@ -59,7 +60,8 @@ def tracker():
             user_collection.insert_one({"link": product_link,
                                         "email": user_email,
                                         "product_title": product_title,
-                                        "product_price": product_price
+                                        "product_price": product_price,
+                                        "timestamp": datetime.datetime.now().timestamp()
                                         })
 
             return render_template('statusS.html')
@@ -81,4 +83,4 @@ def deals():
 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=80, debug=True)
+    app.run(host="0.0.0.0", port=80)
