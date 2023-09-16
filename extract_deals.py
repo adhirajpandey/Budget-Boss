@@ -7,7 +7,6 @@ import os
 from dotenv import load_dotenv
 from datetime import datetime as dt
 
-print(dt.now())
 
 load_dotenv()
 
@@ -63,69 +62,75 @@ def extractFromMsgText(msgtext):
     return product_name, product_price, product_link, product_website
 
 
-db = connectMongo()
+def getDeals():
+    db = connectMongo()
 
-deals_collection = db["Deals"]
+    deals_collection = db["Deals"]
 
-# Channel username or ID to extract messages from
-channel_username = 'lootersindia'
+    # Channel username or ID to extract messages from
+    channel_username = 'lootersindia'
 
-# Path to the session file
-session_file = 'session_file.session'
+    # Path to the session file
+    session_file = 'session_file.session'
 
-# Number of recent messages to extract
-num_messages = 10
+    # Number of recent messages to extract
+    num_messages = 10
 
-# Create a Telegram client using the session file
-client = TelegramClient(session_file, api_id, api_hash)
+    # Create a Telegram client using the session file
+    client = TelegramClient(session_file, api_id, api_hash)
 
-# Start the client
-client.start()
+    # Start the client
+    client.start()
 
-# Get the channel entity
-channel = client.get_entity(channel_username)
+    # Get the channel entity
+    channel = client.get_entity(channel_username)
 
-# Retrieve the recent messages from the channel
-recent_messages = client.get_messages(channel, limit=num_messages)
+    # Retrieve the recent messages from the channel
+    recent_messages = client.get_messages(channel, limit=num_messages)
 
-# List to store extracted messages
-messages = []
+    # List to store extracted messages
+    messages = []
 
-# Iterate over the recent messages in reverse order
-for message in reversed(recent_messages):
-    # Extract desired message data
-    product_name, product_price, product_link, product_website = extractFromMsgText(message.text)
+    # Iterate over the recent messages in reverse order
+    for message in reversed(recent_messages):
+        # Extract desired message data
+        product_name, product_price, product_link, product_website = extractFromMsgText(message.text)
 
-    message_data = {
-        'id': message.id,
-        'message_time_unix': message.date.timestamp(),
-        'message_time': datetime.datetime.fromtimestamp(message.date.timestamp()).strftime('%Y-%m-%d %H:%M:%S'),
-        'product_link': product_link,
-        'product_name': product_name,
-        'product_price': product_price,
-        'product_website': product_website
-    }
+        message_data = {
+            'id': message.id,
+            'message_time_unix': message.date.timestamp(),
+            'message_time': datetime.datetime.fromtimestamp(message.date.timestamp()).strftime('%Y-%m-%d %H:%M:%S'),
+            'product_link': product_link,
+            'product_name': product_name,
+            'product_price': product_price,
+            'product_website': product_website
+        }
 
-    # Append the message data to the list
-    messages.append(message_data)
+        # Append the message data to the list
+        messages.append(message_data)
 
-# Save messages to a JSON file
-with open('mostrecent_dump.json', 'w') as json_file:
-    json.dump(messages, json_file, indent=4)
+    # Save messages to a JSON file
+    with open('mostrecent_dump.json', 'w') as json_file:
+        json.dump(messages, json_file, indent=4)
 
-# check id for redundancy
-list_of_ids = deals_collection.find({}, {"id": 1, "_id": 0})
+    # check id for redundancy
+    list_of_ids = deals_collection.find({}, {"id": 1, "_id": 0})
 
-list_of_ids = [x['id'] for x in list_of_ids]
+    list_of_ids = [x['id'] for x in list_of_ids]
 
-new_messages = [message for message in messages if message['id'] not in list_of_ids]
+    new_messages = [message for message in messages if message['id'] not in list_of_ids]
 
-# Insert new messages into MongoDB
-if new_messages:
-    deals_collection.insert_many(new_messages)
+    # Insert new messages into MongoDB
+    if new_messages:
+        deals_collection.insert_many(new_messages)
 
-if new_messages:
-    print(
-        f"{len(new_messages)} new messages from the channel saved to channel_messages.json file and inserted into MongoDB")
-else:
-    print("No new messages from the channel")
+    if new_messages:
+        print(
+            f"{len(new_messages)} new messages from the channel saved to channel_messages.json file and inserted into MongoDB")
+    else:
+        print("No new messages from the channel")
+
+
+if __name__ == "__main__":
+    print(dt.now())
+    getDeals()
