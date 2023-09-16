@@ -5,7 +5,9 @@ Price tracking web application that helps you save money on online e-commerce pu
 
 Currently supported E-commerce websites : Amazon, Flipkart, Myntra, Boat.
 
-It is built using Python, HTML, CSS, Flask, Jinja, Telethon and Beautiful Soup. Currently using MongoDB as primary Database and deployed using Microsoft Azure App Service and crons scheduled on personal linux machine.
+It is built using Python, HTML, CSS, Flask, Jinja, Telethon and Beautiful Soup. Currently using MongoDB as primary Database and deployed using Microsoft Azure App Service.
+
+Apache Airflow and cronjobs are setup on personal linux machine.
 
 Check it out - https://budgetbossapp.azurewebsites.net/
 
@@ -14,7 +16,7 @@ User inputs the desired product link and email. This data along with Product Tit
 
 The background listener.py file runs every hour and compares the current price of the product with the saved price. If the current price is less than the saved price, the bot sends a mail to the user with the required details as shown in the sample below. This listener script is scheduled using cronjob.
 
-To facilitate Deals Functionality, extract_deals.py gets most recent deals messages from telegram channel and saves them in MongoDB collection and fetch_images.py extracts images from saved deals links. Both of these files are also scheduled using cronjobs to run every 15 mins.
+To facilitate Deals Functionality, extract_deals.py gets most recent deals messages from telegram channel and saves them in MongoDB collection and fetch_images.py extracts images from saved deals links. Both of these scripts are scheduled using Airflow in form of DAG.
 
 Edit: To bypass 15 mins sleep timeout by Azure, `wakewebsite.sh` script is also scheduled using cron to ping webapp at regular intervals.
 
@@ -37,9 +39,15 @@ Edit: To bypass 15 mins sleep timeout by Azure, `wakewebsite.sh` script is also 
 
 6. Schedule `extract_deals.py` and `fetch_images.py` using cron to populate the deals DB.
 
-Note : You would need to authenticate your telethon client using OTP and telgram password by following on-screen instruction after running `extract_deals.py` for first time usage.
+## Notes
+
+1. You would need to authenticate your telethon client using OTP and telgram password by following on-screen instruction after running `extract_deals.py` for first time usage.
 
    ![tg_config](https://github.com/adhirajpandey/Budget-Boss/assets/87516052/99a62f35-159e-4af4-8f70-6e334420be67)
+
+2. You can use `deals_dag.py` to setup schedule Airflow pipeline for latest deals and its images.
+   
+   ![airflow](https://github.com/adhirajpandey/Budget-Boss/assets/87516052/a9ccc1c9-65d5-40a2-9431-34d8570240dc)
 
 
 ## Utilities
@@ -67,5 +75,4 @@ Note : You would need to authenticate your telethon client using OTP and telgram
 
   
   
-
 
