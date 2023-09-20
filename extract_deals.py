@@ -49,17 +49,20 @@ def cleanPrice(msgtext):
 
 
 def extractFromMsgText(msgtext):
-    product_name = msgtext[0:msgtext.index('\n')]
-    product_price = cleanPrice(msgtext)
-    product_link = msgtext[msgtext.index('https://'):]
-    product_website = ""
+    try:
+        product_name = msgtext[0:msgtext.index('\n')]
+        product_price = cleanPrice(msgtext)
+        product_link = msgtext[msgtext.index('https://'):]
+        product_website = ""
 
-    if "amzn" in product_link:
-        product_website = "AMAZON INDIA"
-    elif "bit" in product_link:
-        product_website = "FLIPKART INDIA"
+        if "amzn" in product_link:
+            product_website = "AMAZON INDIA"
+        elif "bit" in product_link:
+            product_website = "FLIPKART INDIA"
 
-    return product_name, product_price, product_link, product_website
+        return product_name, product_price, product_link, product_website
+    except Exception as e:
+        pass
 
 
 def getDeals():
@@ -93,9 +96,12 @@ def getDeals():
 
     # Iterate over the recent messages in reverse order
     for message in reversed(recent_messages):
-        # Extract desired message data
-        product_name, product_price, product_link, product_website = extractFromMsgText(message.text)
-
+        try:
+            # Extract desired message data
+            product_name, product_price, product_link, product_website = extractFromMsgText(message.text)
+        except:
+            continue
+        
         message_data = {
             'id': message.id,
             'message_time_unix': message.date.timestamp(),
