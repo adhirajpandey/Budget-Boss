@@ -125,7 +125,7 @@ def scrapeProductInfo_boat(URL):
             "\xa0", "").replace("  ", "")
 
         # clean price
-        price = price[price.index('₹') + 2:]
+        price = price[price.index('₹') + 1:]
 
         return [title, int(price)]
 
