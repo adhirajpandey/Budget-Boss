@@ -50,7 +50,7 @@ def cleanPrice(msgtext):
 
 def extractFromMsgText(msgtext):
     try:
-        product_name = msgtext[0:msgtext.index('\n')]
+        product_name = msgtext[2:msgtext.index('\n')]
         product_price = cleanPrice(msgtext)
         product_link = msgtext[msgtext.index('https://'):]
         product_website = ""
