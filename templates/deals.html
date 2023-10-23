@@ -10,7 +10,7 @@
     <img src="{{product['product_image']}}" alt="{{ product['product_name'] }}">
     <h2 class="product-name">{{ product['product_name'] }}</h2>
     <h2>Price: ₹{{ product['product_price'] }}</h2>
-    <h2>Link: <a href="{{ product['product_link'] }}">{{ product['product_link'] }}</a></h2>
+    <h2>Link: <a href="{{ product['product_link'] }}" class="product-link">{{ product['product_link'] }}</a></h2>
   </div>   
   {% endfor %}
 </div>
