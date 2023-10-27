@@ -57,7 +57,7 @@ def extractFromMsgText(msgtext):
 
         if "amzn" in product_link:
             product_website = "AMAZON INDIA"
-        elif "bit" in product_link:
+        elif "bit" in product_link or "flipkart" in product_link:
             product_website = "FLIPKART INDIA"
 
         return product_name, product_price, product_link, product_website
