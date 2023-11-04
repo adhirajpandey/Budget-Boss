@@ -1,0 +1,34 @@
+name: Docker Image CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: docker login
+      env:
+        DOCKER_USER: ${{secrets.DOCKER_USER}}
+        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      run: |
+        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+        
+    - name: Build and Push Docker image
+      run: |
+        IMAGE_TAG=$(date +%s)
+        IMAGE_NAME=${{secrets.DOCKER_USER}}/budgetboss
+        docker build . --file Dockerfile --tag $IMAGE_NAME:$IMAGE_TAG
+        # Tag the same image with 'latest'
+        docker tag $IMAGE_NAME:$IMAGE_TAG $IMAGE_NAME:latest
+        # Push the epoch tagged image
+        docker push $IMAGE_NAME:$IMAGE_TAG
+        # Push the 'latest' tagged image
+        docker push $IMAGE_NAME:latest
