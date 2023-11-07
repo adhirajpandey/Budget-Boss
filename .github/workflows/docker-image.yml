@@ -15,9 +15,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
       - name: docker login
         env:
           DOCKER_USER: ${{ secrets.DOCKER_USER }}
@@ -25,11 +22,11 @@ jobs:
         run: |
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
 
-      - name: Build and Push Docker image
+      - name: Build Docker image
         run: |
           IMAGE_TAG=$(date +%s)
           IMAGE_NAME=${{ secrets.DOCKER_USER }}/budgetboss
-          docker buildx build \
+          docker build \
             --file Dockerfile \
             --tag $IMAGE_NAME:$IMAGE_TAG \
             --build-arg MONGO_CLUSTER=${{ secrets.MONGO_CLUSTER }} \
@@ -39,13 +36,16 @@ jobs:
             --build-arg SENDER_EMAIL_PASSWORD=${{ secrets.SENDER_EMAIL_PASSWORD }} \
             --build-arg TG_API_ID=${{ secrets.TG_API_ID }} \
             --build-arg TG_API_HASH=${{ secrets.TG_API_HASH }} \
-            --push .
+            .
 
-          # Tag the same image with 'latest'
-          docker tag $IMAGE_NAME:$IMAGE_TAG $IMAGE_NAME:latest
-
-          # Push the epoch tagged image
+      - name: Push Docker image
+        run: |
+          IMAGE_TAG=$(date +%s)
+          IMAGE_NAME=${{ secrets.DOCKER_USER }}/budgetboss
           docker push $IMAGE_NAME:$IMAGE_TAG
 
-          # Push the 'latest' tagged image
+      - name: Tag and push 'latest' Docker image
+        run: |
+          IMAGE_NAME=${{ secrets.DOCKER_USER }}/budgetboss
+          docker tag $IMAGE_NAME:$IMAGE_TAG $IMAGE_NAME:latest
           docker push $IMAGE_NAME:latest
