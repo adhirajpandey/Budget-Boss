@@ -27,15 +27,7 @@ jobs:
           IMAGE_NAME=${{ secrets.DOCKER_USER }}/budgetboss
           docker build \
             --file Dockerfile \
-            --tag $IMAGE_NAME:latest \
-            --build-arg MONGO_CLUSTER=${{ secrets.MONGO_CLUSTER }} \
-            --build-arg MONGO_USER=${{ secrets.MONGO_USER }} \
-            --build-arg MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }} \
-            --build-arg SENDER_EMAIL_ID=${{ secrets.SENDER_EMAIL_ID }} \
-            --build-arg SENDER_EMAIL_PASSWORD=${{ secrets.SENDER_EMAIL_PASSWORD }} \
-            --build-arg TG_API_ID=${{ secrets.TG_API_ID }} \
-            --build-arg TG_API_HASH=${{ secrets.TG_API_HASH }} \
-            .
+            --tag $IMAGE_NAME:latest .
 
           # Push the image with "latest" tag
           docker push $IMAGE_NAME:latest
