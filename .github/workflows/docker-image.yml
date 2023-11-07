@@ -15,20 +15,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: docker login
+      - name: Docker login
         env:
           DOCKER_USER: ${{ secrets.DOCKER_USER }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
 
-      - name: Build Docker image
+      - name: Build and Push Docker image
         run: |
-          IMAGE_TAG=$(date +%s)
           IMAGE_NAME=${{ secrets.DOCKER_USER }}/budgetboss
           docker build \
             --file Dockerfile \
-            --tag $IMAGE_NAME:$IMAGE_TAG \
+            --tag $IMAGE_NAME:latest \ # Use "latest" tag
             --build-arg MONGO_CLUSTER=${{ secrets.MONGO_CLUSTER }} \
             --build-arg MONGO_USER=${{ secrets.MONGO_USER }} \
             --build-arg MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }} \
@@ -38,14 +37,5 @@ jobs:
             --build-arg TG_API_HASH=${{ secrets.TG_API_HASH }} \
             .
 
-      - name: Push Docker image
-        run: |
-          IMAGE_TAG=$(date +%s)
-          IMAGE_NAME=${{ secrets.DOCKER_USER }}/budgetboss
-          docker push $IMAGE_NAME:$IMAGE_TAG
-
-      - name: Tag and push 'latest' Docker image
-        run: |
-          IMAGE_NAME=${{ secrets.DOCKER_USER }}/budgetboss
-          docker tag $IMAGE_NAME:$IMAGE_TAG $IMAGE_NAME:latest
+          # Push the image with "latest" tag
           docker push $IMAGE_NAME:latest
