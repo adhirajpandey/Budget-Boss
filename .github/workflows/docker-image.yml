@@ -22,12 +22,12 @@ jobs:
         run: |
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
 
-      - name: Build and Push Docker image
+      - name: Build Docker image
         run: |
           IMAGE_NAME=${{ secrets.DOCKER_USER }}/budgetboss
           docker build \
             --file Dockerfile \
-            --tag $IMAGE_NAME:latest \ # Use "latest" tag
+            --tag $IMAGE_NAME:latest \
             --build-arg MONGO_CLUSTER=${{ secrets.MONGO_CLUSTER }} \
             --build-arg MONGO_USER=${{ secrets.MONGO_USER }} \
             --build-arg MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }} \
