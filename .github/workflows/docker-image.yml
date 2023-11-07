@@ -39,7 +39,7 @@ jobs:
             --build-arg SENDER_EMAIL_PASSWORD=${{ secrets.SENDER_EMAIL_PASSWORD }} \
             --build-arg TG_API_ID=${{ secrets.TG_API_ID }} \
             --build-arg TG_API_HASH=${{ secrets.TG_API_HASH }} \
-            .
+            --push .
 
           # Tag the same image with 'latest'
           docker tag $IMAGE_NAME:$IMAGE_TAG $IMAGE_NAME:latest
