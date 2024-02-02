@@ -61,6 +61,32 @@ def getImageFromAmazonLink(link):
         return None
 
 
+def getImageFromFlipkartLink(URL):
+    try:
+        response = requests.get(URL)
+
+        final_url = response.url
+
+        URL = final_url
+
+        response = requests.get(URL)
+
+        # Extracting the source code of the page and passing it to bs4
+        page = BeautifulSoup(response.text, 'html.parser')
+
+        # fetch data of all img tags only src attribute and get link with highest dim(landing img)
+        links = [img.get('src') for img in page.find_all('img') if img.get('src') and img.get('src').startswith('http') and "image" in img.get('src')]
+        dimensions = list(set(link.split('/')[4] for link in links))
+        highest_dim = max(dimensions)
+
+        image = [link for link in links if highest_dim in link][0]
+
+        return image
+
+    except:
+        return None
+
+
 def fetchAmazonImg(link):
     # retrying multiple times due to unpredictable amazon response
     count = 0
@@ -70,38 +96,14 @@ def fetchAmazonImg(link):
         count += 1
     return imglink
 
-
-def fetchFlipkartImg(URL):
-    try:
-        response = requests.get(URL)
-
-        final_url = response.url
-
-        URL = final_url
-
-        API_URL = "https://flipkart.dvishal485.workers.dev/product/min/"
-
-        # cleaning URL in required API format
-        if "http" in URL:
-            URL = URL.replace("https://www.flipkart.com/", "")
-
-        elif "http" not in URL and "www" in URL:
-            URL = URL.replace("www.flipkart.com/", "")
-
-        # getting page using requests module
-        page = requests.get(API_URL + URL)
-
-        # getting results in json
-        product_data = page.json()
-
-        thumbnails = product_data["thumbnails"]
-
-        image = thumbnails[0]
-
-        return image
-
-    except:
-        return None
+def fetchFlipkartImg(link):
+    # retrying multiple times due to unpredictable flipkart response
+    count = 0
+    imglink = None
+    while count < 15 and imglink == None:
+        imglink = getImageFromFlipkartLink(link)
+        count += 1
+    return imglink
 
 
 def getImages():
