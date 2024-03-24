@@ -9,7 +9,7 @@ It is built using Python, HTML, CSS, Flask, Jinja, Telethon and Beautiful Soup. 
 
 Apache Airflow and cronjobs are setup on personal linux machine.
 
-Check it out - https://budgetboss.adhiraj.live/
+Check it out - https://budgetboss.adhirajpandey.me/
 
 ## Working
 User inputs the desired product link and email. This data along with Product Title and it's Current Price is added in the database.
