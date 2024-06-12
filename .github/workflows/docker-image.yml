@@ -3,31 +3,27 @@ name: Docker Image CI
 on:
   workflow_dispatch:
   push:
-    branches: ["main"]
-  pull_request:
-    branches: ["main"]
+    branches: [ "main" ]
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Docker login
-        env:
-          DOCKER_USER: ${{ secrets.DOCKER_USER }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          tags: adhirajpandey/bb:latest
+
+      - name: Trigger Jenkins CD Pipeline
         run: |
-          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-
-      - name: Build Docker image
-        run: |
-          IMAGE_NAME=${{ secrets.DOCKER_USER }}/budgetboss
-          docker build \
-            --file Dockerfile \
-            --tag $IMAGE_NAME:latest .
-
-          # Push the image with "latest" tag
-          docker push $IMAGE_NAME:latest
+          curl -H "Authorization: Bearer ${{ secrets.JENKINS_TRIGGER_TOKEN }}" ${{ secrets.JENKINS_WEBHOOK_TRIGGER_URL }}
