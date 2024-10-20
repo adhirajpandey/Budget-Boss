@@ -22,7 +22,7 @@ def connectMongo() -> object:
         client = MongoClient(connectionstring)
 
         # connecting with database
-        db = client["BudgetBossDB"]
+        db = client["BUDGETBOSS"]
 
         return db
 
