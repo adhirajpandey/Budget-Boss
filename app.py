@@ -29,7 +29,8 @@ def tracker():
 
         # get data from html form
         product_link = request.form.get("plink")
-        user_email = request.form.get("uemail")
+        product_link = product_link.strip()
+        user_email = request.form.get("uemail").strip()
 
         # scrape product info using multiple requests (precaution for false negatives)
         for i in range(3):
