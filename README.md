@@ -26,7 +26,7 @@ Edit: To bypass 15 mins sleep timeout by Azure, `wakewebsite.sh` script is also 
 
 2. Install the dependencies: `pip install -r requirements.txt`
 
-3. Setup environment variables in `.env` file.
+3. Copy `.env.example` to `.env` and fill in the values.
 
    Notes : 
    1. Add 'MONGO_CLUSTER', 'MONGO_USER', 'MONGO_PASSWORD' after setting up MongoDB Atlas and configure it's db to be accessed from anywhere.
