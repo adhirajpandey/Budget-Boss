@@ -41,6 +41,31 @@ Edit: To bypass 15 mins sleep timeout by Azure, `wakewebsite.sh` script is also 
 
 ## Notes
 
+### Web service readiness and timeouts
+
+`GET /health` returns `{"status": "ok"}` without contacting MongoDB or a shop.
+Use it for process readiness. Check `/deals` separately to verify database access;
+moving the web process cannot fix an unavailable shared database.
+
+The container runs one Gunicorn worker with two threads, configured in
+`gunicorn.conf.py`, so a slow request leaves capacity for a health check. Both
+threads can still be occupied by concurrent requests.
+
+Each tracker submission makes one scrape attempt. Shop requests use a 2-second
+connection timeout and a 3-second read timeout, then show the existing failure
+page if scraping fails. Read timeouts limit inactivity, not total request time.
+MongoDB uses 3-second server-selection and socket timeouts and a 2-second
+connection timeout. These settings also apply to scripts that use `helper.py`.
+
+Rebuild the image and recreate the container to apply these changes. Supply
+credentials at runtime; `.env` and Telegram session files are excluded from the
+image build context. The web container does not run notification or collection
+jobs.
+
+With dependencies installed, run `python -m unittest discover -s tests -v`.
+Tests use mocked databases and HTTP responses, plus a local stalled HTTP server;
+they do not write to a real database or send notifications.
+
 1. You would need to authenticate your telethon client using OTP and telgram password by following on-screen instruction after running `extract_deals.py` for first time usage.
 
    ![tg_config](https://github.com/adhirajpandey/Budget-Boss/assets/87516052/99a62f35-159e-4af4-8f70-6e334420be67)

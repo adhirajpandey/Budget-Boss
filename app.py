@@ -11,6 +11,12 @@ deals_collection = db["Deals"]
 app = Flask(__name__)
 
 
+@app.route('/health')
+def health():
+    """Report process readiness without contacting shops or MongoDB."""
+    return {"status": "ok"}
+
+
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -31,26 +37,17 @@ def tracker():
         product_link = request.form.get("plink")
         user_email = request.form.get("uemail")
 
-        # scrape product info using multiple requests (precaution for false negatives)
-        for i in range(3):
-            if "amazon" in product_link:
-                product_title, product_price = scrapeProductInfo_amzn(product_link)
-                if product_price != -1:
-                    break
-            elif "flipkart" in product_link:
-                product_title, product_price = scrapeProductInfo_flkt(product_link)
-                if product_price != -1:
-                    break
-            elif "myntra" in product_link:
-                product_title, product_price = scrapeProductInfo_mntr(product_link)
-                if product_price != -1:
-                    break
-            elif "boat-lifestyle" in product_link:
-                product_title, product_price = scrapeProductInfo_boat(product_link)
-                if product_price != -1:
-                    break
-            else:
-                return render_template('statusF.html')
+        # Make one bounded attempt; reuse the existing failure page if it fails.
+        if "amazon" in product_link:
+            product_title, product_price = scrapeProductInfo_amzn(product_link)
+        elif "flipkart" in product_link:
+            product_title, product_price = scrapeProductInfo_flkt(product_link)
+        elif "myntra" in product_link:
+            product_title, product_price = scrapeProductInfo_mntr(product_link)
+        elif "boat-lifestyle" in product_link:
+            product_title, product_price = scrapeProductInfo_boat(product_link)
+        else:
+            return render_template('statusF.html')
 
         if product_price == -1:
             # redirect to status failure

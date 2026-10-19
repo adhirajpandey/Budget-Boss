@@ -8,6 +8,8 @@ from pymongo import MongoClient
 # load environment variables
 load_dotenv()
 
+REQUEST_TIMEOUT = (2, 3)
+
 
 def connectMongo() -> object:
     try:
@@ -19,7 +21,12 @@ def connectMongo() -> object:
         # connecting with mongo db
         connectionstring = "mongodb+srv://" + user + ":" + password + "@" + cluster + ".mongodb.net/test?retryWrites=true&w=majority"
 
-        client = MongoClient(connectionstring)
+        client = MongoClient(
+            connectionstring,
+            serverSelectionTimeoutMS=3000,
+            connectTimeoutMS=2000,
+            socketTimeoutMS=3000,
+        )
 
         # connecting with database
         db = client["BudgetBossDB"]
@@ -36,7 +43,7 @@ def scrapeProductInfo_amzn(URL):
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36"}
 
         # getting page using requests module
-        page = requests.get(URL, headers=header)
+        page = requests.get(URL, headers=header, timeout=REQUEST_TIMEOUT)
 
         # getting html content with proper formatting
         soup1 = BeautifulSoup(page.content, "html.parser")
@@ -68,7 +75,7 @@ def scrapeProductInfo_flkt(URL):
             URL = URL.replace("www.flipkart.com/", "")
 
         # getting page using requests module
-        page = requests.get(FLIPKART_API_URL + URL)
+        page = requests.get(FLIPKART_API_URL + URL, timeout=REQUEST_TIMEOUT)
 
         # getting results in json
         product_data = page.json()
@@ -88,7 +95,7 @@ def scrapeProductInfo_mntr(URL):
         header = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36"}
 
-        page = requests.get(URL, headers=header)
+        page = requests.get(URL, headers=header, timeout=REQUEST_TIMEOUT)
 
         soup = BeautifulSoup(page.text, "html.parser")
 
@@ -115,7 +122,7 @@ def scrapeProductInfo_boat(URL):
         header = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36"}
 
-        page = requests.get(URL, headers=header)
+        page = requests.get(URL, headers=header, timeout=REQUEST_TIMEOUT)
         soup = BeautifulSoup(page.text, "html.parser")
 
         # get price and cleaned title
