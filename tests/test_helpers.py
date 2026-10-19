@@ -3,6 +3,7 @@ import unittest
 from unittest.mock import MagicMock, patch
 
 import requests
+from pymongo.errors import ConfigurationError
 
 import helper
 
@@ -29,10 +30,33 @@ class HelperTests(unittest.TestCase):
             client.call_args.kwargs,
             {
                 "serverSelectionTimeoutMS": 3000,
-                "connectTimeoutMS": 2000,
+                "connectTimeoutMS": 5000,
                 "socketTimeoutMS": 3000,
             },
         )
+
+    def test_mongo_initialization_reports_redacted_failure(self):
+        """Keep a DNS error visible without logging connection credentials."""
+        values = {
+            "MONGO_CLUSTER": "cluster-example",
+            "MONGO_USER": "example-user",
+            "MONGO_PASSWORD": "example-password",
+        }
+        failure = ConfigurationError(
+            "DNS timed out: cluster-example example-user example-password"
+        )
+        with (
+            patch.dict(os.environ, values),
+            patch.object(helper, "MongoClient", side_effect=failure),
+            self.assertRaises(RuntimeError) as raised,
+        ):
+            helper.connectMongo()
+        message = str(raised.exception)
+        self.assertIn("ConfigurationError", message)
+        self.assertIn("DNS timed out", message)
+        for value in values.values():
+            self.assertNotIn(value, message)
+        self.assertTrue(raised.exception.__suppress_context__)
 
     def test_scraper_timeouts(self):
         """All four scrapers make one timed request and return their failure result."""

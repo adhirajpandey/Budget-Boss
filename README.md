@@ -54,8 +54,11 @@ threads can still be occupied by concurrent requests.
 Each tracker submission makes one scrape attempt. Shop requests use a 2-second
 connection timeout and a 3-second read timeout, then show the existing failure
 page if scraping fails. Read timeouts limit inactivity, not total request time.
-MongoDB uses 3-second server-selection and socket timeouts and a 2-second
-connection timeout. These settings also apply to scripts that use `helper.py`.
+MongoDB uses 3-second server-selection and socket timeouts and a 5-second
+connection timeout. PyMongo also uses the connection timeout for DNS discovery
+at startup; a 2-second limit proved too short for an intermittent slow resolver.
+Initialization failures report the underlying error with credentials redacted.
+These settings also apply to scripts that use `helper.py`.
 
 Rebuild the image and recreate the container to apply these changes. Supply
 credentials at runtime; `.env` and Telegram session files are excluded from the

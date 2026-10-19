@@ -24,7 +24,7 @@ def connectMongo() -> object:
         client = MongoClient(
             connectionstring,
             serverSelectionTimeoutMS=3000,
-            connectTimeoutMS=2000,
+            connectTimeoutMS=5000,
             socketTimeoutMS=3000,
         )
 
@@ -33,8 +33,15 @@ def connectMongo() -> object:
 
         return db
 
-    except:
-        print("Error while connecting with mongo db")
+    except Exception as error:
+        detail = str(error)
+        for key in ("MONGO_USER", "MONGO_PASSWORD", "MONGO_CLUSTER"):
+            value = os.getenv(key)
+            if value:
+                detail = detail.replace(value, "[redacted]")
+        raise RuntimeError(
+            f"MongoDB initialization failed ({type(error).__name__}): {detail}"
+        ) from None
 
 
 def scrapeProductInfo_amzn(URL):
